@@ -38,6 +38,10 @@ int main()
             {
                 window.close();
             }
+            if (event->is<sf::Event::KeyPressed>())
+            {
+              game.keyPressed(*(event->getIf<sf::Event::KeyPressed>()));
+            }
 
             //add further events here
 
