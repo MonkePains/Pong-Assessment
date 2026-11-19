@@ -15,6 +15,9 @@ class Game
 	void render();
 	void mouseClicked(sf::Event event);
 	void keyPressed(sf::Event::KeyPressed keypressevent);
+    void keyReleased(sf::Event::KeyReleased keyreleasedevent);
+
+	Vector ball_direction = Vector(3, 3);
 
   private:
     bool collisionCheck(sf::Sprite sprite, sf::Sprite sprite1);
@@ -36,7 +39,7 @@ class Game
 	bool reverseX = false;
     bool reverseY = false;
 
-	float speed = 400;
+	float speed = 500;
  
 };
 

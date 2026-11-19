@@ -21,7 +21,11 @@ bool Game::init()
     { window.getSize().x / 2 - menu_text.getGlobalBounds().size.x / 2, 50 });
 
   ball.setPosition({ 400, 400 });
-  paddleRed.setPosition({ 400, 100 });
+  ball.setScale({ 0.25, 0.25 });
+  paddleRed.setPosition({ 475, 25 });
+  paddleBlue.setPosition({ 475, 675});
+  paddleRed.setScale({ 1.5, 1 });
+  paddleBlue.setScale({ 1.5, 1 });
 	return true;
 }
 
@@ -38,20 +42,10 @@ void Game::update(float dt)
   if (reverseX)
   {
     ball.move({ -1.0f * speed * dt, 0 });
-    ball.setTextureRect(
-      sf::IntRect(
-        { (int)ball.getLocalBounds().size.x, 0 },
-        { (int)-ball.getLocalBounds().size.x,
-          (int)ball.getLocalBounds().size.y }));
   }
   else
   {
     ball.move({ 1.0f * speed * dt, 0 });
-    ball.setTextureRect(
-      sf::IntRect(
-        { 0, 0 },
-        { (int)ball.getLocalBounds().size.x,
-          (int)ball.getLocalBounds().size.y }));
   }
   // up and down reverse
   if (
@@ -61,7 +55,7 @@ void Game::update(float dt)
   {
     reverseY = !reverseY;
   }
-
+  
   if (reverseY)
   {
     ball.move({ 0 * speed * dt, -1.0f });
@@ -69,6 +63,14 @@ void Game::update(float dt)
   else
   {
     ball.move({ 0 * speed * dt, 1.0f });
+  }
+  if (collisionCheck(ball, paddleRed))
+  {
+   reverseY;
+  }
+  if (collisionCheck(ball, paddleBlue))
+  {
+     !reverseY;
   }
 }
 
@@ -95,12 +97,26 @@ void Game::mouseClicked(sf::Event event)
 
 void Game::keyPressed(sf::Event::KeyPressed keyPressEvent)
 {
-  if (
-    (keyPressEvent.scancode == sf::Keyboard::Scancode::Left) ||
-    (keyPressEvent.scancode == sf::Keyboard::Scancode::Right))
+  float dt = 0.075f;
+
+  if (keyPressEvent.scancode == sf::Keyboard::Scancode::Left)
   {
-    play_selected = !play_selected;
+      paddleBlue.move({ -1.0f * speed * dt, 0 });
   }
+  else if (keyPressEvent.scancode == sf::Keyboard::Scancode::Right)
+  {
+      paddleBlue.move({ 1.0f * speed * dt, 0 });
+
+  }
+  if (keyPressEvent.scancode == sf::Keyboard::Scancode::A)
+  {
+    paddleRed.move({ -1.0f * speed * dt, 0 });
+  }
+  else if (keyPressEvent.scancode == sf::Keyboard::Scancode::D)
+  {
+    paddleRed.move({ 1.0f * speed * dt, 0 });
+  }
+
   else if (keyPressEvent.scancode == sf::Keyboard::Scancode::Enter)
   {
     if (play_selected)
