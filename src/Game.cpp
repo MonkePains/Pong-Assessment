@@ -20,7 +20,7 @@ bool Game::init()
   menu_text.setPosition(
     { window.getSize().x / 2 - menu_text.getGlobalBounds().size.x / 2, 50 });
 
-  ball.setPosition({ 400, 400 });
+  ball.setPosition({ 540, 360 });
   ball.setScale({ 0.25, 0.25 });
   paddleRed.setPosition({ 475, 25 });
   paddleBlue.setPosition({ 475, 675});
@@ -31,53 +31,60 @@ bool Game::init()
 
 void Game::update(float dt)
 {
+
   deltaTime = dt;
+  if (in_menu == false)
+  {
+      if (
+        (ball.getPosition().x >
+         (window.getSize().x - ball.getGlobalBounds().size.x)) ||
+        (ball.getPosition().x < 0))
+      {
+        reverseX = !reverseX;
+      }
 
-  if (
-    (ball.getPosition().x >
-     (window.getSize().x - ball.getGlobalBounds().size.x)) ||
-    (ball.getPosition().x < 0))
-  {
-    reverseX = !reverseX;
-  }
-
-  if (reverseX)
-  {
-    ball.move({ -1.0f * ballSpeed * dt, 0 });
-  }
-  else
-  {
-    ball.move({ 1.0f * ballSpeed * dt, 0 });
-  }
-  // up and down reverse
-  if (
-    (ball.getPosition().y >
-     (window.getSize().y - ball.getGlobalBounds().size.y)) ||
-    (ball.getPosition().y < 0))
-  {
-   reverseY = !reverseY;
-  }
+      if (reverseX)
+      {
+        ball.move({ -ballSpeed * dt, 0 });
+      }
+      else
+      {
+        ball.move({ ballSpeed * dt, 0 });
+      }
+      // up and down reverse
+      if (
+        (ball.getPosition().y >
+         (window.getSize().y - ball.getGlobalBounds().size.y)) ||
+        (ball.getPosition().y < 0))
+      {
+       reverseY = !reverseY;
+      }
  
-  if (collisionCheck(ball, paddleRed))
-  {
-   reverseY = !reverseY;
-    std::cout << "Collided";
+      if (collisionCheck(ball, paddleRed))
+      {
+       reverseY = !reverseY;
+        std::cout << "Collided";
    
-  }
-  if (collisionCheck(ball, paddleBlue))
-  {
-     reverseY = !reverseY;
-    std::cout << "Collided";
-  }
+      }
+      if (collisionCheck(ball, paddleBlue))
+      {
+         reverseY = !reverseY;
+        std::cout << "Collided";
+      }
  
-   std::cout << reverseY;
-  if (reverseY)
-  {
-    ball.move({ 0 * ballSpeed * dt, -1.0f });
+       std::cout << reverseY;
+      if (reverseY)
+      {
+        ball.move({ 0, -ballSpeed*dt });
+      }
+      else
+      {
+        ball.move({ 0, ballSpeed * dt });
+      }
   }
   else
   {
-    ball.move({ 0 * ballSpeed * dt, 1.0f });
+   
   }
 }
 

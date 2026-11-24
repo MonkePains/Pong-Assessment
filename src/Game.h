@@ -41,7 +41,7 @@ class Game
 	bool reverseX = false;
     bool reverseY = false;
 
-	float ballSpeed = 1000;
+	float ballSpeed = 200;
 	float speed = 3000;
  
 };
