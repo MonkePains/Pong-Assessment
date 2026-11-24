@@ -31,6 +31,8 @@ bool Game::init()
 
 void Game::update(float dt)
 {
+  deltaTime = dt;
+
   if (
     (ball.getPosition().x >
      (window.getSize().x - ball.getGlobalBounds().size.x)) ||
@@ -41,11 +43,11 @@ void Game::update(float dt)
 
   if (reverseX)
   {
-    ball.move({ -1.0f * speed * dt, 0 });
+    ball.move({ -1.0f * ballSpeed * dt, 0 });
   }
   else
   {
-    ball.move({ 1.0f * speed * dt, 0 });
+    ball.move({ 1.0f * ballSpeed * dt, 0 });
   }
   // up and down reverse
   if (
@@ -53,24 +55,29 @@ void Game::update(float dt)
      (window.getSize().y - ball.getGlobalBounds().size.y)) ||
     (ball.getPosition().y < 0))
   {
-    reverseY = !reverseY;
+   reverseY = !reverseY;
   }
-  
-  if (reverseY)
-  {
-    ball.move({ 0 * speed * dt, -1.0f });
-  }
-  else
-  {
-    ball.move({ 0 * speed * dt, 1.0f });
-  }
+ 
   if (collisionCheck(ball, paddleRed))
   {
-   reverseY;
+   reverseY = !reverseY;
+    std::cout << "Collided";
+   
   }
   if (collisionCheck(ball, paddleBlue))
   {
-     !reverseY;
+     reverseY = !reverseY;
+    std::cout << "Collided";
+  }
+ 
+   std::cout << reverseY;
+  if (reverseY)
+  {
+    ball.move({ 0 * ballSpeed * dt, -1.0f });
+  }
+  else
+  {
+    ball.move({ 0 * ballSpeed * dt, 1.0f });
   }
 }
 
@@ -97,24 +104,22 @@ void Game::mouseClicked(sf::Event event)
 
 void Game::keyPressed(sf::Event::KeyPressed keyPressEvent)
 {
-  float dt = 0.075f;
-
   if (keyPressEvent.scancode == sf::Keyboard::Scancode::Left)
   {
-      paddleBlue.move({ -1.0f * speed * dt, 0 });
+      paddleBlue.move({ -1.0f * speed * deltaTime, 0 });
   }
   else if (keyPressEvent.scancode == sf::Keyboard::Scancode::Right)
   {
-      paddleBlue.move({ 1.0f * speed * dt, 0 });
+    paddleBlue.move({ 1.0f * speed * deltaTime, 0 });
 
   }
   if (keyPressEvent.scancode == sf::Keyboard::Scancode::A)
   {
-    paddleRed.move({ -1.0f * speed * dt, 0 });
+    paddleRed.move({ -1.0f * speed * deltaTime, 0 });
   }
   else if (keyPressEvent.scancode == sf::Keyboard::Scancode::D)
   {
-    paddleRed.move({ 1.0f * speed * dt, 0 });
+    paddleRed.move({ 1.0f * speed * deltaTime, 0 });
   }
 
   else if (keyPressEvent.scancode == sf::Keyboard::Scancode::Enter)
@@ -135,15 +140,14 @@ void Game::keyPressed(sf::Event::KeyPressed keyPressEvent)
     if (
       sprite.getPosition().x < sprite1.getPosition().x + sprite1.getGlobalBounds().size.x &&
       sprite.getPosition().y <
-        sprite1.getPosition().y + sprite1.getGlobalBounds().size.y)
-    {
-      if (
-        sprite.getPosition().x > sprite1.getPosition().x &&
-        sprite.getPosition().y > sprite1.getPosition().y)
+        sprite1.getPosition().y + sprite1.getGlobalBounds().size.y &&
+      sprite.getPosition().x + sprite.getGlobalBounds().size.x >
+        sprite1.getPosition().x &&
+      sprite.getPosition().y + sprite.getGlobalBounds().size.y >
+        sprite1.getPosition().y)
       {
         return true;
       }
-    }
     return false;
   }
 

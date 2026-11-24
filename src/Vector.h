@@ -7,7 +7,7 @@ class Vector
  public:
 	 Vector()
 	 {
-		 x = 0, y = 0;
+		 x = 0.2, y = -3;
      } 
 	 Vector(float newX, float newY)
 	 {
