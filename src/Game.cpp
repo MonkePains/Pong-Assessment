@@ -69,11 +69,12 @@ void Game::update(float dt)
         (ball.getPosition().y >
          window.getSize().y - ball.getGlobalBounds().size.y))
       {
+        //reverseY = !reverseY;
         player_1_score++;
         spawn();
         return;
       }
-      else if (ball.getPosition().y < 0)
+      else if (ball.getPosition().y < 0) // needs to rejoin above if statement
       {
         player_2_score++;
         spawn();
