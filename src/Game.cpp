@@ -1,6 +1,6 @@
 
 #include "Game.h"
-
+// rotate the paddles in the Data folder
 
 Game::Game(sf::RenderWindow& game_window)
   : window(game_window)
