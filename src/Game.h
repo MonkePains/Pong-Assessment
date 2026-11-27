@@ -16,10 +16,13 @@ class Game
 	void mouseClicked(sf::Event event);
 	void keyPressed(sf::Event::KeyPressed keypressevent);
     void keyReleased(sf::Event::KeyReleased keyreleasedevent);
+    void spawn();
 
 	Vector ball_direction = Vector(3, 5);
 
 	float deltaTime;
+    int player_1_score = 0;
+    int player_2_score = 0;
 
   private:
     bool collisionCheck(sf::Sprite sprite, sf::Sprite sprite1);
@@ -32,6 +35,8 @@ class Game
     sf::Texture ball_texture{ "../Data/Images/ball.png" };
     sf::Sprite ball{ ball_texture };
     sf::Font font{ "../Data/Fonts/OpenSans-Bold.ttf" };
+    sf::Text player1Score { font, "0" , 50};
+    sf::Text player2Score{ font, "0", 50 };
 
 	bool in_menu;
     sf::Text menu_text{ font, "Press Enter to Play ", 50 };
